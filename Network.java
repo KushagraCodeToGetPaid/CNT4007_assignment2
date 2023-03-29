@@ -18,6 +18,8 @@ public class Network {
         int numPacketsDropped = 0;
         int numPacketsCorrupted = 0;
         
+        System.out.println("Waiting for Sender and Receiver connections...");
+        
         while (true) {
             byte[] receiveData = new byte[1024];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -65,6 +67,14 @@ public class Network {
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, 
                                                                  senderAddress, senderPort);
                 senderSocket.send(sendPacket);
+            }
+            
+            if (numPacketsSent == 0 && numPacketsDropped == 0 && numPacketsCorrupted == 0) {
+                System.out.println("Waiting for Sender and Receiver connections...");
+            } else if (numPacketsSent > 0) {
+                System.out.println("Sender connected");
+            } else {
+                System.out.println("Receiver connected");
             }
         }
     }
